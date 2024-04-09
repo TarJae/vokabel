@@ -9,6 +9,12 @@ ns_quiz <- shiny::NS('quiz')
 
 quiz <- create_quiz(
   create_question(
+    'Select B',
+    add_choice('A'),
+    add_choice('B'),
+    add_choice('C', correct = TRUE)
+  ),
+  create_question(
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id ornare augue, fringilla molestie metus. Donec eget tortor tincidunt, sagittis dui volutpat, finibus est. Select nulla.',
     add_choice('Nulla vel'),
     add_choice('auctor nulla'),

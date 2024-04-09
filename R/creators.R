@@ -215,12 +215,12 @@ grader_fn_text_fuzzy <- function(text, correct){
 #'  )
 #' quiz <- create_quiz(q, q2)
 #' @describeIn create_question Create a quiz question
-create_question <- function(prompt, ..., type = c('auto', 'single', 'multiple'), input = c('auto', 'select', 'checkbox'), shuffle = FALSE, ns = shiny::NS('quiz')){
+create_question <- function(prompt, ..., type = c('auto', 'single', 'multiple'), input = c('auto', 'select', 'checkbox', 'radio'), shuffle = FALSE, ns = shiny::NS('quiz')){
   
   if (!isTRUE(is.function(ns))) cli::cli_abort('`ns` must be a function. Preferably generated from `shiny::NS()`')
   
   type <- match.arg(type, c('auto', 'single', 'multiple'))
-  input <- match.arg(input, c('auto', 'select', 'checkbox'))
+  input <- match.arg(input, c('auto', 'select', 'checkbox', 'radio'))
   dot_list <- list(...)
   
   # extract sliders
@@ -284,7 +284,7 @@ create_question <- function(prompt, ..., type = c('auto', 'single', 'multiple'),
   
   # for free text questions that are not exact, change the grader
   if (use_text && isFALSE(input$is_exact)) grader_fn <- \(x) grader_fn_text_fuzzy(x, input$text_correct)
-
+  
   # create question of the right class
   q <- construct_question(
     prompt = prompt_html,
@@ -346,40 +346,42 @@ create_question_text_ <- function(text, label, ns){
 #' @keywords internal
 create_question_input_ <- function(dot_list, choices, type, input, label, selected, ns){
   
-  # extract answer texts
+  # Extract answer texts
   texts <- purrr::map(choices, \(x) x@text)
   
-  # check which choice is correct
+  # Check which choice is correct
   is_correct <- purrr::map_lgl(choices, \(x) x@correct)
-  if (sum(is_correct) < 1) cli::cli_abort('Choices must contain at least one correct answer')
+  if (sum(is_correct) < 1) stop('Choices must contain at least one correct answer', call. = FALSE)
   text_correct <- texts[is_correct]
   
-  # select type and input type
+  # Select type and input type
   if (type == 'auto'){
     type <- ifelse(sum(is_correct) == 1, 'single', 'multiple')
   }
   if (input == 'auto'){
-    input <- ifelse(type == 'single', 'select', 'checkbox')
+    input <- ifelse(type == 'single', 'radio', 'checkbox')  # Default to radio for single choice
   }
   
-  if (sum(is_correct) != 1 && type == 'single') cli::cli_abort('When `type` == "single", choices must contain exactly one correct answer')
-  
-  if (input == 'select'){
-    input_html <- shiny::selectInput(
-      inputId = ns('answers'),
+  # Determine the input method
+  if (input == 'radio') {
+    input_html <- shiny::radioButtons(
+      inputId = ns('answers'), 
       label = label,
-      choices = c('', texts),
-      selected = selected,
-      multiple = isTRUE(type == 'multiple')
+      choices = setNames(texts, texts),  # Associate each choice with its text for clarity
+      selected = selected
     )
-  }else {
+  } else if (input == 'checkbox') {
     input_html <- shiny::checkboxGroupInput(
       inputId = ns('answers'), 
       label = label,
-      choices = texts,
+      choices = setNames(texts, texts),  # Similarly, using setNames for clarity
       selected = selected
     )
+  } 
+  else {
+    stop('Unsupported input type', call. = FALSE)
   }
+  
   
   return(list(input_html = input_html, text_correct = text_correct))
 }

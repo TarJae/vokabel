@@ -65,7 +65,9 @@ The inner div is rendered by the Shiny server and will have a DOM structure of:
       <div class="progress-bar" ...></div>
     </div>
     <div>
-      <div class="quiz-header">...contents of quiz header...</div>
+      <div class="quiz-header">
+   <img src="inst/www/logo.png" alt="logo" style="width:100px;height:auto;">
+  ...contents of quiz header...</div>
       <div class="quiz-prompt">
         <div>...contents of the quiz prompt...</div>
       </div>
@@ -100,6 +102,12 @@ Let's start with some basic styling to enhance the visual appeal of our quiz. We
   padding: 15px;
   border-radius: 4px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.quiz-header img {
+  width: 100px;
+  height: auto;
+  /* Add any additional styling here */
 }
 ```
 
