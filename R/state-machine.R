@@ -170,9 +170,9 @@ sm_ui_format_prompt <- function(prompt, i) {
       class = 'quiz-header',
       htmltools::h4("Nouvelles Perspectives 2"),
       htmltools::h6("Lernen mit Kilian"),
-      htmltools::img(src = "logo.png", height = "100px"), # Add your image here
+      htmltools::img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"), # Add your image here
       htmltools::hr(),
-      htmltools::h3(glue::glue("Question {i}"))
+      htmltools::h3(glue::glue("Frage {i}"))
     ),
     htmltools::div(
       class = 'quiz-prompt',

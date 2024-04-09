@@ -1,6 +1,6 @@
 ^renv$
 ^renv\.lock$
-^shinyQuiz\.Rproj$
+^vokabel\.Rproj$
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^dev$

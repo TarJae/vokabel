@@ -1,38 +1,38 @@
 
 test_that('choices works', {
-  expect_s4_class(shinyquiz::add_choice('my option'), 'quizChoice')
-  expect_s4_class(shinyquiz::add_slider(correct = 0.5), 'quizChoiceSlider')
-  expect_s4_class(shinyquiz::add_slider(correct = 0.5), 'quizChoiceSlider')
+  expect_s4_class(vokabel::add_choice('my option'), 'quizChoice')
+  expect_s4_class(vokabel::add_slider(correct = 0.5), 'quizChoiceSlider')
+  expect_s4_class(vokabel::add_slider(correct = 0.5), 'quizChoiceSlider')
   
-  expect_error(shinyquiz::add_slider(correct = T))
+  expect_error(vokabel::add_slider(correct = T))
 })
 
 test_that("create_question works", {
-  expect_s4_class(shinyquiz::create_question('My q', shinyquiz::add_choice('this', TRUE)), 'quizQuestion')
+  expect_s4_class(vokabel::create_question('My q', vokabel::add_choice('this', TRUE)), 'quizQuestion')
   
-  expect_error(shinyquiz::create_question('My q', shinyquiz::add_choice('this'), shinyquiz::add_slider(correct = 1)))
-  expect_error(shinyquiz::create_question('My q', shinyquiz::add_choice('this')))
+  expect_error(vokabel::create_question('My q', vokabel::add_choice('this'), vokabel::add_slider(correct = 1)))
+  expect_error(vokabel::create_question('My q', vokabel::add_choice('this')))
 })
 
 # test_that("create_question_raw works", {
-#   expect_s4_class(shinyquiz::create_question('My q', shinyquiz::add_choice('this', TRUE)), 'quizQuestion')
-#   expect_error(shinyquiz::create_question('My q', shinyquiz::add_choice('this')))
+#   expect_s4_class(vokabel::create_question('My q', vokabel::add_choice('this', TRUE)), 'quizQuestion')
+#   expect_error(vokabel::create_question('My q', vokabel::add_choice('this')))
 # })
 
 test_that("create_messages works", {
-  expect_s4_class(shinyquiz::create_messages('C', 'W', 'W'), 'quizMessages')
+  expect_s4_class(vokabel::create_messages('C', 'W', 'W'), 'quizMessages')
   
-  expect_error(shinyquiz::create_messages(htmltools::p('html'), 'W', 'W'))
+  expect_error(vokabel::create_messages(htmltools::p('html'), 'W', 'W'))
 })
 
 test_that("create_quiz works", {
   expect_s4_class(
-    shinyquiz::create_quiz(
-      shinyquiz::create_question('My q', shinyquiz::add_choice('this', TRUE))
+    vokabel::create_quiz(
+      vokabel::create_question('My q', vokabel::add_choice('this', TRUE))
     ),
     'quiz'
   )
-  expect_error(shinyquiz::create_question('My q', shinyquiz::add_choice('this')))
+  expect_error(vokabel::create_question('My q', vokabel::add_choice('this')))
 })
 
 test_that("add_text fuzzy works", {

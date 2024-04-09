@@ -19,19 +19,19 @@ pkgload::load_all()
 ```
 
 
-`shinyquiz` is a powerful R package that allows users to create interactive quizzes within R Shiny applications. This guide provides a step-by-step introduction to creating a quiz, integrating it into your Shiny app, and adjusting the options.
+`vokabel` is a powerful R package that allows users to create interactive quizzes within R Shiny applications. This guide provides a step-by-step introduction to creating a quiz, integrating it into your Shiny app, and adjusting the options.
 
 ## Installation
 
-`shinyquiz` is now on CRAN. You can also install the latest development version from GitHub:
+`vokabel` is now on CRAN. You can also install the latest development version from GitHub:
 
 ``` r
 # install latest release from cran
-install.packages('shinyquiz')
+install.packages('vokabel')
 
 # latest development version
 # install.packages("remotes")
-remotes::install_github('priism-center/shinyquiz')
+remotes::install_github('priism-center/vokabel')
 ```
 
 ## Creating Questions
@@ -40,7 +40,7 @@ To start creating a quiz, first load the package.
 
 
 ```{r setup}
-library(shinyquiz)
+library(vokabel)
 ```
 
 A quiz is composed of individual questions created via the `create_question()` function. These objects are then integrated into a quiz using the `create_quiz()` function.
@@ -106,7 +106,7 @@ The `preview_app()` launches the quiz in a Shiny instance to quickly check the q
 
 ## Validating Grading
 
-Accurate grading is essential for the effectiveness of your shinyquiz quizzes. Automated grading is convenient, but it's important to verify its correctness.
+Accurate grading is essential for the effectiveness of your vokabel quizzes. Automated grading is convenient, but it's important to verify its correctness.
 
 ### Understanding Automated Grading
 
@@ -184,4 +184,4 @@ shinyApp(ui = ui, server = server)
 </p>
 <br>
 
-That's the basic idea! With the `shinyquiz` package, you can easily create interactive quizzes and add them to your Shiny applications. If you want to share your app with others, be sure to check out the [Deploying to shinyapps.io article](deploying). Enjoy quiz making! 
+That's the basic idea! With the `vokabel` package, you can easily create interactive quizzes and add them to your Shiny applications. If you want to share your app with others, be sure to check out the [Deploying to shinyapps.io article](deploying). Enjoy quiz making! 

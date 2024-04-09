@@ -16,14 +16,14 @@
 #' @keywords internal
 #'
 #' @examples
-#' shinyquiz:::is_truthy(TRUE)
-#' shinyquiz:::is_truthy(FALSE)
-#' shinyquiz:::is_truthy(1)
-#' shinyquiz:::is_truthy(0)
-#' shinyquiz:::is_truthy(NULL)
-#' shinyquiz:::is_truthy(NA)
-#' shinyquiz:::is_truthy(data.frame())
-#' shinyquiz:::is_truthy(data.frame(x = 1))
+#' vokabel:::is_truthy(TRUE)
+#' vokabel:::is_truthy(FALSE)
+#' vokabel:::is_truthy(1)
+#' vokabel:::is_truthy(0)
+#' vokabel:::is_truthy(NULL)
+#' vokabel:::is_truthy(NA)
+#' vokabel:::is_truthy(data.frame())
+#' vokabel:::is_truthy(data.frame(x = 1))
 is_truthy <- function(x){
   
   ##### additions

@@ -246,7 +246,7 @@ create_question <- function(prompt, ..., type = c('auto', 'single', 'multiple'),
   if (is_truthy(text_element) && (is_truthy(slider_element) || is_truthy(numeric_element) || is_truthy(choices))) cli::cli_abort('Text choices cannot be mixed with other types')
   
   # extract extra arguments
-  if(is_truthy(dot_list$label)){label <- dot_list$label} else {label <- 'Select answer'}
+  if(is_truthy(dot_list$label)){label <- dot_list$label} else {label <- 'Antwort'}
   if(is_truthy(dot_list$selected)){selected <- dot_list$selected} else {selected <- NULL}
   use_slider <- is_truthy(slider_element)
   use_numeric <- is_truthy(numeric_element)

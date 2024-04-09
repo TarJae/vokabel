@@ -177,6 +177,6 @@ add_external_resources <- function(){
   htmltools::tags$head(
     shinyjs::useShinyjs(),
     fontawesome::fa_html_dependency(),
-    htmltools::includeCSS(system.file('shinyquiz.css', package = "shinyquiz")),
+    htmltools::includeCSS(system.file('vokabel.css', package = "vokabel")),
   )
 }

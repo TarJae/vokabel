@@ -9,7 +9,7 @@ create_question(
   prompt,
   ...,
   type = c("auto", "single", "multiple"),
-  input = c("auto", "select", "checkbox"),
+  input = c("auto", "select", "checkbox", "radio"),
   shuffle = FALSE,
   ns = shiny::NS("quiz")
 )

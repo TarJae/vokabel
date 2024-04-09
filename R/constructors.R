@@ -74,9 +74,10 @@ set_quiz_options <- function(ns = shiny::NS('quiz'), messages, sandbox = FALSE, 
   # set the default messages
   if (!methods::hasArg(messages)) {
     messages <- construct_messages(
-      message_correct = "Well done! You got all of them correct.",
-      message_wrong = "Hmmm, bummer! You got at least one wrong.",
-      message_skipped = "Quiz ended. You can restart it using the button below."
+      message_correct = "Gut gemacht! Du hast alles richtig.",
+      message_wrong = "Hmm, schade! Du hast mindestens eine Frage falsch.",
+      message_skipped = "Quiz beendet. Du kannst es mit dem unten stehenden Button neu starten."
+      
     )
   }
   if (!inherits(messages, 'quizMessages')) cli::cli_abort("`messages` should be of class 'quizMessages'")
