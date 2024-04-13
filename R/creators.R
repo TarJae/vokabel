@@ -269,6 +269,7 @@ create_question <- function(prompt, ..., type = c('auto', 'single', 'multiple'),
   } else if (use_text) {
     input <- create_question_text_(text_element[[1]], label, ns)
   } else {
+    selected <- NULL  # Force no default selection
     input <- create_question_input_(dot_list, choices, type, input, label, selected, ns)
   }
   
@@ -368,14 +369,14 @@ create_question_input_ <- function(dot_list, choices, type, input, label, select
       inputId = ns('answers'), 
       label = label,
       choices = setNames(texts, texts),  # Associate each choice with its text for clarity
-      selected = selected
+      selected = character(0)
     )
   } else if (input == 'checkbox') {
     input_html <- shiny::checkboxGroupInput(
       inputId = ns('answers'), 
       label = label,
       choices = setNames(texts, texts),  # Similarly, using setNames for clarity
-      selected = selected
+      selected = character(0)
     )
   } 
   else {

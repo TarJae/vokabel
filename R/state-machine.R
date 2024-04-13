@@ -215,7 +215,7 @@ sm_ui_quiz_complete <- function(store, ns, messages){
   # render the restart button
   restart_button <- shiny::actionButton(
     inputId = ns('restart_button'),
-    label = 'Restart quiz',
+    label = 'Neu Starten',
     class = 'restart-button'
   )
   
@@ -280,8 +280,8 @@ sm_ui_complete_report <- function(store){
     columns = list(
       icon = reactable::colDef(name = '', html = TRUE, width = 40),
       label = reactable::colDef(name = '', width = 115),
-      your_answer = reactable::colDef(name = 'Your Answer', align = 'right'),
-      correct_answer = reactable::colDef(name = 'Correct Answer', align = 'right')
+      your_answer = reactable::colDef(name = 'Deine Antwort', align = 'right'),
+      correct_answer = reactable::colDef(name = 'Richtigie Antwort', align = 'right')
     )
     # details = function(index) {
     #   htmltools::div(
@@ -324,7 +324,7 @@ sm_ui_question <- function(store, ns){
     # button to skip quiz
     shiny::actionButton(
       inputId = ns('skip_button'),
-      label = ifelse(sm_quiz_in_sandbox_mode(store), 'Finish quiz', 'Skip quiz'),
+      label = ifelse(sm_quiz_in_sandbox_mode(store), 'Beenden', 'Abbrechen'),
       class = 'skip-button'
     )
   )
