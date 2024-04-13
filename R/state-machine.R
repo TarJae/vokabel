@@ -225,7 +225,9 @@ sm_ui_quiz_complete <- function(store, ns, messages){
   restart_button <- shiny::actionButton(
     inputId = ns('restart_button'),
     label = 'Neu Starten',
-    class = 'restart-button'
+    # class = 'restart-button'
+    class = "btn btn-warning", 
+    onclick = "location.reload();"  # Add this line
   )
   
   # put it all together
@@ -238,6 +240,9 @@ sm_ui_quiz_complete <- function(store, ns, messages){
   
   return(html_content)
 }
+
+# restart-button ----------------------------------------------------------
+
 
 #' @keywords internal
 #' @describeIn sm_get_state UI to show the score and table of correct answers to display at the end

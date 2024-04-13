@@ -10,6 +10,7 @@ usethis::git_vaccinate()
 usethis::use_package("R", type = 'depends', min_version = '4.1.0') # b/c lambda function
 
 # imports
+usethis::use_package("shinyjs", min_version = '1.7.4')
 usethis::use_package("shiny", min_version = '1.7.4')
 usethis::use_package("fontawesome", min_version = '0.5.0')
 usethis::use_package("htmltools", min_version = '0.5.5')
