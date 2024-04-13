@@ -138,9 +138,9 @@ add_confetti <- function(){
     htmltools::div(class = 'confetti-piece')
   )
   
-  # remove after 10 seconds to prevent re-animations when coming back to the page
+  # remove after 8 seconds to prevent re-animations when coming back to the page
   shinyjs::delay(
-    10*1000,
+    10*800,
     shinyjs::hide(selector = '.confetti')
   )
   

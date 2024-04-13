@@ -42,3 +42,6 @@ vignettes/*.pdf
 .Renviron
 .Rproj.user
 inst/doc
+vokabel.Rcheck/
+vokabel*.tar.gz
+vokabel*.tgz

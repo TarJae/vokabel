@@ -168,11 +168,18 @@ sm_ui_format_prompt <- function(prompt, i) {
   htmltools::div(
     htmltools::div(
       class = 'quiz-header',
-      htmltools::h4("Nouvelles Perspectives 2"),
-      htmltools::h6("Lernen mit Kilian"),
-      htmltools::img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"), # Add your image here
-      htmltools::hr(),
-      htmltools::h3(glue::glue("Frage {i}"))
+      htmltools::div( # Encapsulating image and text in a new div
+        class = 'header-content',
+        htmltools::img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"),
+        htmltools::div( # Text next to the image
+          class = 'header-text',
+          htmltools::h4("Nouvelles Perspectives 2"),
+          htmltools::h6("Lernen mit Kilian"),
+          htmltools::h3(glue::glue("Frage {i}"))
+        ),
+        style = 'display: flex; align-items: center;' # Flexbox styling
+      ),
+      br()
     ),
     htmltools::div(
       class = 'quiz-prompt',
@@ -180,6 +187,8 @@ sm_ui_format_prompt <- function(prompt, i) {
     )
   )
 }
+
+
 
 #' @keywords internal
 #' @describeIn sm_get_state UI to show once the quiz is completed

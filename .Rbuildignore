@@ -11,3 +11,6 @@
 ^vignettes/.*\.Rmd$
 ^vignettes/figures/
 ^inst/doc/
+^vokabel\.Rcheck$
+^vokabel.*\.tar\.gz$
+^vokabel.*\.tgz$

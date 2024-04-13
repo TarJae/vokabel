@@ -58,6 +58,8 @@ The main container quiz-container encapsulates the entire quiz UI. Inside, you'l
 
 The inner div is rendered by the Shiny server and will have a DOM structure of:
 
+The inner div is rendered by the Shiny server and will have a DOM structure of:
+
 ```{html eval=FALSE}
 <div id="quiz-quiz-container" class="quiz-container">
   <div id="quiz-UI_quiz" class="shiny-html-output">

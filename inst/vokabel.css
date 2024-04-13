@@ -3,7 +3,7 @@
  
  /* container for the entire quiz */
  .quiz-container {
-   margin: 1rem;
+   margin: 0.1rem;
  }
  
  
@@ -21,14 +21,21 @@
     overflow: hidden;
     z-index: 999;
     }
+    
     .confetti-piece {
-        position: absolute;
-        width: 10px;
-        height: 30px;
-        background: #ffd300;
-        top: 0;
-        opacity: 0;
-    }
+    position: absolute;
+    width: 45px;  /* Adjusted width */
+    height: 45px; /* Adjusted height */
+   background-image: url('https://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg'); /* Default image */
+    top: 0;
+    opacity: 0;
+    background-size: cover; /* This will cover the entire area of the div */
+    background-repeat: repeat;
+    -webkit-animation: makeItRain 1000ms infinite ease-out;
+}
+
+
+
     .confetti-piece:nth-child(1) {
         left: 7%;
         -webkit-transform: rotate(-40deg);
@@ -133,28 +140,40 @@
         -webkit-animation-duration: 818ms;
         -webkit-animation-iteration-count: 3;
     }
-    .confetti-piece:nth-child(odd) {
-        background: #7431e8;
-    }
+.confetti-piece:nth-child(odd) {
+    background: #7431e8; /* Fallback color */
+    background-image: url('https://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg'); /* Path to your image */
+    background-size: cover; /* Covers the area of the confetti piece, might hide the color if not transparent */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
+}
+
     .confetti-piece:nth-child(even) {
         z-index: 1;
     }
     .confetti-piece:nth-child(4n) {
-        width: 5px;
-        height: 12px;
+        width: 30px;
+        height: 30px;
         -webkit-animation-duration: 2000ms;
     }
     .confetti-piece:nth-child(3n) {
-        width: 3px;
-        height: 10px;
+        width: 15px;
+        height: 15px;
         -webkit-animation-duration: 2500ms;
         -webkit-animation-delay: 1000ms;
     }
     .confetti-piece:nth-child(4n-7) {
-      background: red;
+      background: #7431e8; /* Fallback color */
+    background-image: url('https://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg'); /* Path to your image */
+    background-size: cover; /* Covers the area of the confetti piece, might hide the color if not transparent */
+    background-repeat: no-repeat; /* Prevents the image from repeating */
     }
     @-webkit-keyframes makeItRain {
         from {opacity: 0;}
         50% {opacity: 1;}
         to {-webkit-transform: translateY(350px);}
     }
+    
+
+.header-text {
+  margin-left: 30px; /* Typically 1cm is roughly equal to 37.8px, but rounding to 30px for simplicity */
+}
