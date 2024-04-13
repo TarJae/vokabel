@@ -203,37 +203,55 @@ sm_ui_quiz_complete <- function(store, ns, messages){
   if (is_skipped){
     html_content <- htmltools::tagList(
       htmltools::br(), 
-      add_message_skipped(messages@message_skipped)
+      add_message_skipped(messages@message_skipped),
+      div(
+        img(src = "https://s3.pixers.pics/pixers/700/FO/60/40/65/46/700_FO60406546_7791139aa699c858b4d1cdb9e9ea0cc8.jpg", height = "100px"),
+        style = "text-align: center;")
     )
   } else if (all_correct) {
     html_content <- htmltools::tagList(
       htmltools::br(),
       add_message_correct(messages@message_correct),
-      add_confetti()
-    )
+      add_confetti(),
+      div(
+        img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"),
+        style = "text-align: center;")
+      )
   } else {
     html_content <- htmltools::tagList(
       htmltools::br(), 
-      add_message_wrong(messages@message_wrong)
+      add_message_wrong(messages@message_wrong),
+    div(
+      img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Smile-sad.svg/512px-Smile-sad.svg.png?20120214184056", height = "100px"),
+      style = "text-align: center;")
     )
   }
   
   # render the report table
   grade_report <- sm_ui_complete_report(store)
   
-  # render the restart button
-  restart_button <- shiny::actionButton(
-    inputId = ns('restart_button'),
+  
+  # render the reload button
+  reload_button <- shiny::actionButton(
+    inputId = ns('reload_button'),
     label = 'Neu Starten',
-    # class = 'restart-button'
     class = "btn btn-warning", 
     onclick = "location.reload();"  # Add this line
   )
   
-  # put it all together
+  # render the restart button
+  restart_button <- shiny::actionButton(
+    inputId = ns('restart_button'),
+    label = 'Wiederholen',
+    class = "btn btn-primary"
+  )
+  
+# put it all together
   html_content <- htmltools::tagList(
     html_content,
     grade_report,
+    br(),
+    reload_button,
     restart_button,
     htmltools::br(), htmltools::br(), htmltools::hr(), htmltools::br()
   )
@@ -324,6 +342,7 @@ sm_ui_question <- function(store, ns){
   html_content <- htmltools::tagList(
     
     sm_show_progress(store),
+    
     
     # question content
     sm_get_state(store, 'current-question'),

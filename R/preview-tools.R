@@ -36,7 +36,7 @@ preview_app <- function(quiz, launch_browser = TRUE){
   ui <- shiny::fluidPage(
     
     htmltools::div(
-      style = "max-width: 700px",
+      style = "max-width: 500px",
       quiz_ui(quiz),
       htmltools::br(),
       shiny::checkboxInput('show', 'Show output'),
