@@ -347,19 +347,24 @@ sm_ui_question <- function(store, ns){
     # question content
     sm_get_state(store, 'current-question'),
     
-    # button to submit answer
-    shiny::actionButton(
-      inputId = ns('submit_button'),
-      label = 'Submit',
-      class = 'submit-button'
-    ),
-    
+
+# button to submit answer
+shiny::actionButton(
+  inputId = ns('submit_button'),
+  label = 'Antwort',
+  class = 'submit-button',
+  class = 'btn btn-success'
+),
+   
+# comment out 
     # button to skip quiz
-    shiny::actionButton(
-      inputId = ns('skip_button'),
-      label = ifelse(sm_quiz_in_sandbox_mode(store), 'Beenden', 'Abbrechen'),
-      class = 'skip-button'
-    )
+    # shiny::actionButton(
+    #   inputId = ns('skip_button'),
+    #   label = ifelse(sm_quiz_in_sandbox_mode(store), 'Beenden', 'Abbrechen'),
+    #   class = 'skip-button',
+    #   class = "btn btn-danger"
+    # )
+
   )
   
   return(html_content)
