@@ -347,8 +347,6 @@ sm_ui_question <- function(store, ns){
     # question content
     sm_get_state(store, 'current-question'),
     
-<<<<<<< HEAD
-
 # button to submit answer
 shiny::actionButton(
   inputId = ns('submit_button'),
@@ -366,7 +364,7 @@ shiny::actionButton(
     #   class = "btn btn-danger"
     # )
 
-=======
+
 #commented out because directly trigger after clicking radiobuttons
     # # button to submit answer
     # shiny::actionButton(
@@ -374,15 +372,16 @@ shiny::actionButton(
     #   label = 'Submit',
     #   class = 'submit-button'
     # ),
-    
+
+# commented out
     # button to skip quiz
-    shiny::actionButton(
-      inputId = ns('skip_button'),
-      label = ifelse(sm_quiz_in_sandbox_mode(store), 'Beenden', 'Ich gebe auf!'),
-      class = 'skip-button',
-      class = "btn btn-danger"
-    )
->>>>>>> 07a501f5119de27b32d36bdf8f8be534199dc632
+    # shiny::actionButton(
+    #   inputId = ns('skip_button'),
+    #   label = ifelse(sm_quiz_in_sandbox_mode(store), 'Beenden', 'Ich gebe auf!'),
+    #   class = 'skip-button',
+    #   class = "btn btn-danger"
+    # )
+
   )
   
   return(html_content)

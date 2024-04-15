@@ -116,7 +116,6 @@ quiz_server <- function(quiz){
     
 ##To evaluate the answer right after clicking radio button, mimicking the same action as with submit button: 
     
-<<<<<<< HEAD
     #commeneted out
     # observeEvent(input$answers, {
     #   # Ensure an answer has been selected (ignoreNULL is set to TRUE by default in this context)
@@ -195,97 +194,13 @@ quiz_server <- function(quiz){
           if (sm_logic_end_on_first_wrong(store)){
             store <- sm_set_state(store, variable = 'current-state', value = 'quiz-complete')
           } else {
-=======
-    observeEvent(input$answers, {
-      # Ensure an answer has been selected (ignoreNULL is set to TRUE by default in this context)
-      if (!is.null(input$answers)) {
-        # Disable the radio buttons immediately to prevent changes while processing
-        shinyjs::disable(id = ns('answers'))
-        
-        # Scroll to top of the quiz container if needed
-        scroll_to_div(ns = ns, id = 'quiz-container')
-        
-        # Record the answer chosen by the user
-        store <- sm_set_state(store, variable = 'current-response', value = input$answers)
-        
-        # Check if the answer is correct
-        is_correct <- sm_is_current_correct(store)
-        store <- sm_set_state(store, variable = 'current-correct', is_correct)
-        
-        # Add UI indicator based on correctness
-        if (is_correct) {
-          add_checkmark(ns = ns, id = 'quiz-container', element = 'h3')
-        } else {
-          add_red_x(ns = ns, id = 'quiz-container', element = 'h3')
-        }
-        
-        # Delay further actions by 1000 ms, then proceed based on the quiz logic
-        shinyjs::delay(800, {
-          if (is_correct || !sm_logic_end_on_first_wrong(store)) {
->>>>>>> 07a501f5119de27b32d36bdf8f8be534199dc632
             new_state <- sm_get_state(store, variable = 'next-state')
             store <- sm_set_state(store, variable = 'current-state', value = new_state)
-          } else {
-            store <- sm_set_state(store, variable = 'current-state', value = 'quiz-complete')
           }
-          
-          # Optionally re-enable the radio buttons if moving to the next question
-          shinyjs::enable(id = ns('answers'))
         })
       }
-<<<<<<< HEAD
     })
 
-=======
-    }, ignoreNULL = TRUE)  # Only trigger after a selection has been made
-    
-# #Commented out button submit
-#     # on button submit, record answer and change the state
-#     shiny::observeEvent(input$submit_button, {
-#       
-#       # disable submit button to prevent double clicks
-#       shinyjs::disable(id = 'submit_button')
-#       
-#       # scroll to top of quiz container
-#       scroll_to_div(ns = ns, id = 'quiz-container')
-#       
-#       # record answers
-#       store <- sm_set_state(store, variable = 'current-response', value = input$answers)
-#       
-#       # is the answer correct and record it
-#       is_correct <- sm_is_current_correct(store)
-#       store <- sm_set_state(store, 'current-correct', is_correct)
-#       
-#       # grade it
-#       delay_in_ms <- 1000
-#       if (is_correct){
-#         # add UI indicator
-#         add_checkmark(ns = ns, id = 'quiz-container', element = 'h3')
-#         
-#         # change the state
-#         shinyjs::delay(delay_in_ms, {
-#           new_state <- sm_get_state(store, variable = 'next-state')
-#           store <- sm_set_state(store, variable = 'current-state', value = new_state)
-#         })
-#         
-#       } else {
-#         # add UI indicator
-#         add_red_x(ns = ns, id = 'quiz-container', element = 'h3')
-#         
-#         # change the state
-#         # depending on options, go to next question otherwise end here
-#         shinyjs::delay(delay_in_ms, {
-#           if (sm_logic_end_on_first_wrong(store)){
-#             store <- sm_set_state(store, variable = 'current-state', value = 'quiz-complete')
-#           } else {
-#             new_state <- sm_get_state(store, variable = 'next-state')
-#             store <- sm_set_state(store, variable = 'current-state', value = new_state)
-#           }
-#         })
-#       }
-#     })
-#     
->>>>>>> 07a501f5119de27b32d36bdf8f8be534199dc632
     # render the UI
     output$UI_quiz <- shiny::renderUI(store$ui_html)
 
