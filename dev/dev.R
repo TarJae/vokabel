@@ -71,6 +71,7 @@ devtools::load_all()
 devtools::document()
 devtools::test()
 
+
 # build package
 usethis::use_build_ignore('dev')
 usethis::use_build_ignore('.github')

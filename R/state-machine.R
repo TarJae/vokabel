@@ -189,10 +189,12 @@ sm_ui_format_prompt <- function(prompt, i) {
 }
 
 
-
 #' @keywords internal
 #' @describeIn sm_get_state UI to show once the quiz is completed
-sm_ui_quiz_complete <- function(store, ns, messages){
+#' 
+#quotes_df <- readRDS("quotes.rds")
+
+sm_ui_quiz_complete <- function(store, ns, messages, quotes_df=readRDS("quotes.rds")){
   
   verify_messages_structure(messages)
   
@@ -201,12 +203,17 @@ sm_ui_quiz_complete <- function(store, ns, messages){
   is_skipped <- sm_get_state(store, variable = 'quiz-skipped')
   
   if (is_skipped){
+    # Randomly select a quote
+    selected_quote <- quotes_df[sample(nrow(quotes_df), 1), ]
+    
     html_content <- htmltools::tagList(
       htmltools::br(), 
       add_message_skipped(messages@message_skipped),
       div(
-        img(src = "https://s3.pixers.pics/pixers/700/FO/60/40/65/46/700_FO60406546_7791139aa699c858b4d1cdb9e9ea0cc8.jpg", height = "100px"),
-        style = "text-align: center;")
+        style = "text-align: center;",
+        htmltools::tags$h3(htmltools::HTML(sprintf("<i>%s</i>", selected_quote$zitat))),
+        htmltools::tags$p(sprintf("- %s", selected_quote$autor))
+      )
     )
   } else if (all_correct) {
     html_content <- htmltools::tagList(
@@ -216,16 +223,19 @@ sm_ui_quiz_complete <- function(store, ns, messages){
       div(
         img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"),
         style = "text-align: center;")
-      )
+    )
   } else {
     html_content <- htmltools::tagList(
       htmltools::br(), 
       add_message_wrong(messages@message_wrong),
-    div(
-      img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Smile-sad.svg/512px-Smile-sad.svg.png?20120214184056", height = "100px"),
-      style = "text-align: center;")
+      div(
+        img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Smile-sad.svg/512px-Smile-sad.svg.png?20120214184056", height = "100px"),
+        style = "text-align: center;")
     )
   }
+  
+  # Return the HTML content
+  html_content
   
   # render the report table
   grade_report <- sm_ui_complete_report(store)
@@ -355,14 +365,13 @@ shiny::actionButton(
   class = 'btn btn-success'
 ),
    
-# comment out 
-    # button to skip quiz
-    # shiny::actionButton(
-    #   inputId = ns('skip_button'),
-    #   label = ifelse(sm_quiz_in_sandbox_mode(store), 'Beenden', 'Abbrechen'),
-    #   class = 'skip-button',
-    #   class = "btn btn-danger"
-    # )
+    #button to skip quiz
+    shiny::actionButton(
+      inputId = ns('skip_button'),
+      label = ifelse(sm_quiz_in_sandbox_mode(store), 'Beenden', 'Abbrechen'),
+      class = 'skip-button',
+      class = "btn btn-danger"
+    )
 
 
 #commented out because directly trigger after clicking radiobuttons
