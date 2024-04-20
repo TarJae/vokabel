@@ -26,7 +26,8 @@
     position: absolute;
     width: 45px;  /* Adjusted width */
     height: 45px; /* Adjusted height */
-    background-image: url('https://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg'); /* Default image */
+     background-image: url('/inst/www/logo.png'); /* Local image */
+  /*  background-image: url('https://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg'); /* Default image */
     top: 0;
     opacity: 0;
     background-size: cover; /* This will cover the entire area of the div */
@@ -142,8 +143,7 @@
     }
 .confetti-piece:nth-child(odd) {
     background: #7431e8; /* Fallback color */
-   /* background-image: url('logo.png'); /* Path to your image within the package */
-   /* background-image: url('https://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg'); /* Path to your image */
+  /* background-image: url('https://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg'); /* Path to your image */
     background-size: cover; /* Covers the area of the confetti piece, might hide the color if not transparent */
     background-repeat: no-repeat; /* Prevents the image from repeating */
 }
@@ -163,9 +163,9 @@
         -webkit-animation-delay: 1000ms;
     }
     .confetti-piece:nth-child(4n-7) {
-      background:  #FFD700; /* Fallback color */
-     /* background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/724px-R_logo.svg.png");
-    /* background-image: url('https://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg'); /* Path to your image */
+      background: #7431e8; /* Fallback color */
+      background-image: url("https://upload.wikimedia.org/wikipedia/commons/thumb/1/1b/R_logo.svg/724px-R_logo.svg.png");
+   /* background-image: url('https://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg'); /* Path to your image */
     background-size: cover; /* Covers the area of the confetti piece, might hide the color if not transparent */
     background-repeat: no-repeat; /* Prevents the image from repeating */
     }

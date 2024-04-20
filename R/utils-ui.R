@@ -1,5 +1,36 @@
 ### UI-specific utility functions ###
 
+
+#' Convert Image to Base64 URL
+#'
+#' This function reads an image file from the package's `www` directory and converts it to a base64 URL using the magick package.
+#' It allows for dynamic selection of images stored within the package, making it versatile for use in web applications, especially Shiny apps.
+#'
+#' @param image_name The name of the image file to be converted to a base64 URL.
+#' @param package_name The name of the package where the image is stored, with a default value of "vokabel".
+#' @importFrom magick image_read image_info image_write
+#' @importFrom base64enc base64encode
+#' @return A string containing the base64 URL of the image.
+#' @export
+#' @examples
+#' get_image_base64("logo.png")
+#' get_image_base64("abc.png", package_name = "vokabel")
+get_image_base64 <- function(image_name, package_name = "vokabel") {
+  # Construct the path to the image within the specified package
+  img_path <- system.file("/inst/www", image_name, package = package_name)
+  
+  # Read the image file using magick
+  img <- magick::image_read(img_path)
+  
+  # Convert the image to base64 encoding
+  img_base64 <- magick::image_write(img, format = 'png', path = NULL)
+  img_url <- paste0("data:image/png;base64,", base64enc::base64encode(img_base64))
+  
+  return(img_url)
+}
+
+
+
 #' Scroll the webpage to a certain div
 #'
 #' @param ns namespace of the Shiny module

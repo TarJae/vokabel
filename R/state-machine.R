@@ -165,28 +165,32 @@ sm_ui_format_prompts <- function(quiz){
 #' @keywords internal
 #' @describeIn sm_get_state Add a header denoting the question number
 sm_ui_format_prompt <- function(prompt, i) {
+  
+  # Get the company logo as a base64 URL
+  logo_url <- get_image_base64("logo.png")
+  
   htmltools::div(
+    class = 'quiz-header',
     htmltools::div(
-      class = 'quiz-header',
-      htmltools::div( # Encapsulating image and text in a new div
-        class = 'header-content',
-        htmltools::img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"),
-        htmltools::div( # Text next to the image
-          class = 'header-text',
-          htmltools::h4("Nouvelles Perspectives 2"),
-          htmltools::h6("Lernen mit Kilian"),
-          htmltools::h3(glue::glue("Frage {i}"))
-        ),
-        style = 'display: flex; align-items: center;' # Flexbox styling
-      ),
-      br()
+      class = 'header-content',
+      style = 'display: flex; align-items: center;', # Flexbox styling
+      # Use the logo URL in an img tag
+      htmltools::tags$img(src = logo_url, height = "100px"),
+      htmltools::div( # Text next to the image
+        class = 'header-text',
+        htmltools::h4("Nouvelles Perspectives 2"),
+        htmltools::h6("Lernen mit Kilian"),
+        htmltools::h3(glue::glue("Frage {i}"))
+      )
     ),
+    br(),
     htmltools::div(
       class = 'quiz-prompt',
       prompt
     )
   )
 }
+
 
 
 #' @keywords internal
@@ -196,6 +200,10 @@ sm_ui_format_prompt <- function(prompt, i) {
 
 sm_ui_quiz_complete <- function(store, ns, messages, quotes_df=readRDS("quotes.rds")){
   
+  # Get the smiley png and logo as a base64 URL
+  smiley_url <- get_image_base64("smiley.png")
+  logo_url <- get_image_base64("logo.png")
+  
   verify_messages_structure(messages)
   
   # render ending message based on if answers are correct
@@ -203,7 +211,7 @@ sm_ui_quiz_complete <- function(store, ns, messages, quotes_df=readRDS("quotes.r
   is_skipped <- sm_get_state(store, variable = 'quiz-skipped')
   
   if (is_skipped){
-    # Randomly select a quote
+    # Randomly select a quotelogo_url <- get_image_base64("logo.png")
     selected_quote <- quotes_df[sample(nrow(quotes_df), 1), ]
     
     html_content <- htmltools::tagList(
@@ -220,17 +228,27 @@ sm_ui_quiz_complete <- function(store, ns, messages, quotes_df=readRDS("quotes.r
       htmltools::br(),
       add_message_correct(messages@message_correct),
       add_confetti(),
-      div(
-        img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"),
-        style = "text-align: center;")
+      # div(
+        # img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"),
+        # style = "text-align: center;")
+    # )
+    htmltools::tags$div(
+      htmltools::tags$img(src = logo_url, height = "100px"),
+      style = "text-align: center;"  # Style should be applied to the div for it to affect its children
+    )
     )
   } else {
     html_content <- htmltools::tagList(
       htmltools::br(), 
       add_message_wrong(messages@message_wrong),
-      div(
-        img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Smile-sad.svg/512px-Smile-sad.svg.png?20120214184056", height = "100px"),
-        style = "text-align: center;")
+    #   div(
+    #     img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Smile-sad.svg/512px-Smile-sad.svg.png?20120214184056", height = "100px"),
+    #     style = "text-align: center;")
+    # )
+    htmltools::tags$div(
+      htmltools::tags$img(src = smiley_url, height = "100px"),
+      style = "text-align: center;"  # Style should be applied to the div for it to affect its children
+    )
     )
   }
   
