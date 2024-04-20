@@ -17,7 +17,7 @@
 #' get_image_base64("abc.png", package_name = "vokabel")
 get_image_base64 <- function(image_name, package_name = "vokabel") {
   # Construct the path to the image within the specified package
-  img_path <- system.file("/inst/www", image_name, package = package_name)
+  img_path <- system.file("www", image_name, package = package_name)
   
   # Read the image file using magick
   img <- magick::image_read(img_path)
