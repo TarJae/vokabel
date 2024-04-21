@@ -20,5 +20,4 @@ It allows for dynamic selection of images stored within the package, making it v
 }
 \examples{
 get_image_base64("logo.png")
-get_image_base64("abc.png", package_name = "vokabel")
 }

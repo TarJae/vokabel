@@ -229,26 +229,26 @@ sm_ui_quiz_complete <- function(store, ns, messages, quotes_df=readRDS("quotes.r
       add_message_correct(messages@message_correct),
       add_confetti(),
       # div(
-        # img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"),
-        # style = "text-align: center;")
-    # )
-    htmltools::tags$div(
-      htmltools::tags$img(src = logo_url, height = "100px"),
-      style = "text-align: center;"  # Style should be applied to the div for it to affect its children
-    )
+      # img(src = "http://www.herzjesugym.com/wp-content/uploads/2014/05/msclogo-klein-e1402397370441.jpg", height = "100px"),
+      # style = "text-align: center;")
+      # )
+      htmltools::tags$div(
+        htmltools::tags$img(src = logo_url, height = "100px"),
+        style = "text-align: center;"  # Style should be applied to the div for it to affect its children
+      )
     )
   } else {
     html_content <- htmltools::tagList(
       htmltools::br(), 
       add_message_wrong(messages@message_wrong),
-    #   div(
-    #     img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Smile-sad.svg/512px-Smile-sad.svg.png?20120214184056", height = "100px"),
-    #     style = "text-align: center;")
-    # )
-    htmltools::tags$div(
-      htmltools::tags$img(src = smiley_url, height = "100px"),
-      style = "text-align: center;"  # Style should be applied to the div for it to affect its children
-    )
+      #   div(
+      #     img(src = "https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Smile-sad.svg/512px-Smile-sad.svg.png?20120214184056", height = "100px"),
+      #     style = "text-align: center;")
+      # )
+      htmltools::tags$div(
+        htmltools::tags$img(src = smiley_url, height = "100px"),
+        style = "text-align: center;"  # Style should be applied to the div for it to affect its children
+      )
     )
   }
   
@@ -274,7 +274,7 @@ sm_ui_quiz_complete <- function(store, ns, messages, quotes_df=readRDS("quotes.r
     class = "btn btn-primary"
   )
   
-# put it all together
+  # put it all together
   html_content <- htmltools::tagList(
     html_content,
     grade_report,
@@ -328,7 +328,7 @@ sm_ui_complete_report <- function(store){
     your_answer = unlist(answers_user_print),
     correct_answer = answers_correct_print
   )
-
+  
   # remove skipped rows if in sandbox mode
   if (sm_quiz_in_sandbox_mode(store)){
     grade_tbl <- grade_tbl[grade_tbl$your_answer != skip_label,]
@@ -375,14 +375,14 @@ sm_ui_question <- function(store, ns){
     # question content
     sm_get_state(store, 'current-question'),
     
-# button to submit answer
-shiny::actionButton(
-  inputId = ns('submit_button'),
-  label = 'Antwort',
-  class = 'submit-button',
-  class = 'btn btn-success'
-),
-   
+    # button to submit answer
+    shiny::actionButton(
+      inputId = ns('submit_button'),
+      label = 'Antwort',
+      class = 'submit-button',
+      class = 'btn btn-success'
+    ),
+    
     #button to skip quiz
     shiny::actionButton(
       inputId = ns('skip_button'),
@@ -390,17 +390,17 @@ shiny::actionButton(
       class = 'skip-button',
       class = "btn btn-danger"
     )
-
-
-#commented out because directly trigger after clicking radiobuttons
+    
+    
+    #commented out because directly trigger after clicking radiobuttons
     # # button to submit answer
     # shiny::actionButton(
     #   inputId = ns('submit_button'),
     #   label = 'Submit',
     #   class = 'submit-button'
     # ),
-
-# commented out
+    
+    # commented out
     # button to skip quiz
     # shiny::actionButton(
     #   inputId = ns('skip_button'),
@@ -408,7 +408,7 @@ shiny::actionButton(
     #   class = 'skip-button',
     #   class = "btn btn-danger"
     # )
-
+    
   )
   
   return(html_content)
@@ -466,7 +466,7 @@ sm_create_reactive_store <- function(quiz){
 #' @describeIn sm_get_state Calculate the percent of questions correct
 sm_score_quiz <- function(store){
   # if not in sandbox mode, then NAs should be treated as incorrect
-
+  
   in_sandbox <- sm_quiz_in_sandbox_mode(store)
   answers <- store$is_correct
   

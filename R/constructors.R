@@ -149,7 +149,7 @@ create_messages <- function(message_correct, message_wrong, message_skipped){
 #' @return an object of class `quizQuestion`
 #' @describeIn construct_quiz Construct a question object
 construct_question <- function(prompt, answerUserPrettifier, answerCorrectPretty, grader, ns){
-
+  
   if (!isTRUE(inherits(prompt, 'shiny.tag'))) cli::cli_abort("`prompt` must be of class 'shiny.tag'. Preferably generated from `htmltools::div()`")
   if (!isTRUE(is.function(answerUserPrettifier))) cli::cli_abort('`answerUserPrettifier` must be a function with one argument')
   if (!isTRUE(is.character(answerCorrectPretty))) cli::cli_abort('`answerCorrectPretty` must be a string')
@@ -183,7 +183,7 @@ construct_messages <- function(message_correct, message_wrong, message_skipped){
   if (!isTRUE(is.character(message_correct))) cli::cli_abort('`message_correct` must be class character')
   if (!isTRUE(is.character(message_wrong))) cli::cli_abort('`message_wrong` must be class character')
   if (!isTRUE(is.character(message_skipped))) cli::cli_abort('`message_skipped` must be class character')
-
+  
   messages <- methods::new('quizMessages')
   messages@message_correct <- message_correct
   messages@message_wrong <- message_wrong
@@ -209,14 +209,14 @@ verify_question_structure <- function(question){
   if (!isTRUE(inherits(question@answerUserPrettifier, 'function'))) cli::cli_abort('`answerUserPrettifier` must be a function that accepts one argument and returns a character.')
   if (!isTRUE(inherits(question@answerCorrectPretty, 'character'))) cli::cli_abort('`answerCorrectPretty` must be a character.')
   if (!isTRUE(inherits(question@grader, 'function'))) cli::cli_abort('`grader` must be a function that accepts one argument and returns a boolean')
-
+  
   # check to see if there is an input with id "answers"
   verify_input_id(question@prompt)
   
   # verify number of args in functions
   verify_n_args(question@answerUserPrettifier, 1)
   verify_n_args(question@grader, 1)
-
+  
   return(invisible(TRUE))
 }
 
@@ -286,7 +286,7 @@ setClass('quizQuestion', slots = list(
   answerCorrectPretty = 'character', # how to print the correct answer in the report
   grader = 'function', # function that compares user answer to the correct answer
   ns = 'function'
-  )
+)
 )
 
 #' S4 class for a random quiz question
@@ -321,7 +321,7 @@ setClass('quizMessages', slots = list(
   message_correct = 'character',
   message_wrong = 'character',
   message_skipped = 'character'
-  )
+)
 )
 
 #' S4 class for a quiz
@@ -338,7 +338,7 @@ setClass('quizMessages', slots = list(
 setClass('quiz', slots = list(
   questions = 'list',
   options = 'list'
-  )
+)
 )
 
 
@@ -362,8 +362,8 @@ setMethod(
   definition = function(object){
     if (shiny::isRunning()){
       return(invisible(NULL))
-      } else {
-        preview_quiz(object)
-      }
+    } else {
+      preview_quiz(object)
+    }
   }
 )

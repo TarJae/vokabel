@@ -13,8 +13,6 @@
 #' @return A string containing the base64 URL of the image.
 #' @export
 #' @examples
-#' get_image_base64("logo.png")
-#' get_image_base64("abc.png", package_name = "vokabel")
 get_image_base64 <- function(image_name, package_name = "vokabel") {
   # Construct the path to the image within the specified package
   img_path <- system.file("www", image_name, package = package_name)
