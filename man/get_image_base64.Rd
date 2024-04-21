@@ -18,6 +18,3 @@ A string containing the base64 URL of the image.
 This function reads an image file from the package's \code{www} directory and converts it to a base64 URL using the magick package.
 It allows for dynamic selection of images stored within the package, making it versatile for use in web applications, especially Shiny apps.
 }
-\examples{
-get_image_base64("logo.png")
-}
