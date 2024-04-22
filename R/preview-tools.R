@@ -40,7 +40,8 @@ preview_app <- function(quiz, launch_browser = TRUE){
       quiz_ui(quiz),
       htmltools::br(),
       shiny::checkboxInput('show', 'Show output'),
-      shiny::conditionalPanel("input.show == true", shiny::verbatimTextOutput('quizSummary'))
+      shiny::conditionalPanel("input.show == true", 
+                              shiny::verbatimTextOutput('quizSummary'))
     )
     
   )

@@ -52,6 +52,21 @@ quiz_ui <- function(quiz){
   )
 }
 
+
+#' Get correct answers and total questions
+#'
+#' This function returns the current number of correct answers and total questions.
+#' @param quiz The quiz object
+#' @return A named list containing the number of correct answers and total questions
+#' @export
+get_quiz_stats <- function(quiz) {
+  correct_answers <- quiz$correct_answers()
+  total_questions <- quiz$total_questions()
+  list(correct_answers = correct_answers, total_questions = total_questions)
+}
+
+
+
 #' @param quiz an object of class `quiz`. See [create_quiz()]
 #' @export
 #' @return a reactive object showing the current results of the quiz
@@ -59,7 +74,6 @@ quiz_ui <- function(quiz){
 #' @describeIn quiz_ui Server side function
 quiz_server <- function(quiz){
 
-  
   verify_quiz_structure(quiz)
   ns <- quiz@options$ns
   id <- ns(NULL)
@@ -67,7 +81,6 @@ quiz_server <- function(quiz){
   id <- stringr::str_remove_all(id, "^.*?-") # remove any prefixes due to parent modules; this is fragile but works
   
   shiny::moduleServer(id, function(input, output, session){
-    
     
     correct_answers <- reactiveVal(0)  # To track the number of correct answers
     total_questions <- reactiveVal(0)  # To track the total number of attempted questions
@@ -137,6 +150,17 @@ quiz_server <- function(quiz){
       is_correct <- sm_is_current_correct(store)
       store <- sm_set_state(store, 'current-correct', is_correct)
       
+      
+      ##
+      # Increment total questions
+      total_questions(total_questions() + 1)
+      
+      # Increment correct answers if the answer is correct
+      if (is_correct) {
+        correct_answers(correct_answers() + 1)
+      }
+      
+      
       # grade it
       delay_in_ms <- 1000
       if (is_correct){
@@ -166,6 +190,17 @@ quiz_server <- function(quiz){
       }
     })
     
+    # Display correct answers
+    output$correct_answers_display <- shiny::renderText({
+      paste("Correct Answers:", correct_answers())
+    })
+    
+    # Display total questions
+    output$total_questions_display <- shiny::renderText({
+      paste("Total Questions:", total_questions())
+    })
+    
+    # Return the quiz summary
     # render the UI
     output$UI_quiz <- shiny::renderUI(store$ui_html)
     
@@ -173,7 +208,7 @@ quiz_server <- function(quiz){
     return(shiny::reactive(sm_summary(store, quiz)))
   })
 }
-################################################################################
+###############################################
 #' External resources to include in the app 
 #'
 #' Examples include `shinyjs::useShinyjs` or `fontawesome::fa_html_dependency`. These objects are raised to the head of html document.
