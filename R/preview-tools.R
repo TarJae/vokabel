@@ -29,35 +29,46 @@
 #' )
 #' preview_app(quiz)
 #' @describeIn preview_app Preview a quiz with full operability
-preview_app <- function(quiz, launch_browser = TRUE){
-  
+preview_app <- function(quiz, launch_browser = TRUE) {
   verify_quiz_structure(quiz)
   
   ui <- shiny::fluidPage(
-    
     htmltools::div(
       style = "max-width: 500px",
       quiz_ui(quiz),
       htmltools::br(),
       shiny::checkboxInput('show', 'Show output'),
-      shiny::conditionalPanel("input.show == true", 
-                              shiny::verbatimTextOutput('quizSummary'))
+      shiny::conditionalPanel(
+        condition = "input.show == true",
+        shiny::verbatimTextOutput('quizSummary'),
+        shiny::verbatimTextOutput('statsCorrect'),
+        shiny::verbatimTextOutput('statsTotal')
+      )
     )
-    
   )
   
   server <- function(input, output, session) {
-    
-    # run the quiz
+    # Get the reactive object from quiz_server
     quiz_summary <- quiz_server(quiz)
     
-    # display the available output
-    output$quizSummary <- shiny::renderPrint(quiz_summary())
+    # Display the full summary
+    output$quizSummary <- shiny::renderPrint({
+      quiz_summary()$summary
+    })
+    
+    # Display the correct answers count
+    output$statsCorrect <- shiny::renderText({
+      paste("Correct Answers:", quiz_summary()$correct_answers)
+    })
+    
+    # Display the total questions count
+    output$statsTotal <- shiny::renderText({
+      paste("Total Questions:", quiz_summary()$total_questions)
+    })
   }
   
   shiny::shinyApp(ui, server, options = list(launch.browser = !isFALSE(launch_browser)))
 }
-
 
 # html preview ------------------------------------------------------------
 

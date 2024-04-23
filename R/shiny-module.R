@@ -60,11 +60,11 @@ quiz_ui <- function(quiz){
 #' @return A named list containing the number of correct answers and total questions
 #' @export
 get_quiz_stats <- function(quiz) {
+  print(class(quiz))  # Print the class of the quiz object
   correct_answers <- quiz$correct_answers()
   total_questions <- quiz$total_questions()
   list(correct_answers = correct_answers, total_questions = total_questions)
 }
-
 
 
 #' @param quiz an object of class `quiz`. See [create_quiz()]
@@ -190,22 +190,32 @@ quiz_server <- function(quiz){
       }
     })
     
-    # Display correct answers
+     # Display correct answers
     output$correct_answers_display <- shiny::renderText({
       paste("Correct Answers:", correct_answers())
     })
-    
+
     # Display total questions
     output$total_questions_display <- shiny::renderText({
       paste("Total Questions:", total_questions())
     })
-    
+
     # Return the quiz summary
     # render the UI
     output$UI_quiz <- shiny::renderUI(store$ui_html)
     
     # return the quiz summary
-    return(shiny::reactive(sm_summary(store, quiz)))
+   # return(shiny::reactive(sm_summary(store, quiz)))
+    
+    # returns all elements of quizsummary and correct answers and asked questions count
+    return(shiny::reactive({
+      list(
+        ui_html = store$ui_html,
+        correct_answers = correct_answers(),
+        total_questions = total_questions(),
+        summary = sm_summary(store, quiz)
+      )
+    }))
   })
 }
 ###############################################
@@ -215,7 +225,7 @@ quiz_server <- function(quiz){
 #'
 #' @return an invisible object of class shiny.tag
 #' @noRd
-#' @author Joseph Marlo
+#' @author Joseph Marlo TarJae
 add_external_resources <- function(){
   htmltools::tags$head(
     shinyjs::useShinyjs(),
