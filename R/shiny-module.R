@@ -46,8 +46,9 @@ quiz_ui <- function(quiz){
       id = ns('quiz-container'),
       class = 'quiz-container',
       shiny::uiOutput(outputId = ns('UI_quiz')),
-      shiny::textOutput(outputId = ns('correct_answers_display')),  # Display correct answers
-      shiny::textOutput(outputId = ns('total_questions_display'))   # Display total questions
+      htmltools::br(),
+      shiny::uiOutput(outputId = ns('correct_answers_display')),  # Display correct answers
+      shiny::uiOutput(outputId = ns('total_questions_display'))   # Display total questions
     )
   )
 }
@@ -190,15 +191,15 @@ quiz_server <- function(quiz){
       }
     })
     
-     # Display correct answers
-    output$correct_answers_display <- shiny::renderText({
-      paste("Correct Answers:", correct_answers())
+    output$correct_answers_display <- shiny::renderUI({
+      shiny::HTML(paste("<h4>Richtig: ", correct_answers(), "</h4>"))
     })
-
-    # Display total questions
-    output$total_questions_display <- shiny::renderText({
-      paste("Total Questions:", total_questions())
+    
+    
+    output$total_questions_display <- shiny::renderUI({
+      shiny::HTML(paste("<h4>Gesamt: ", total_questions(), "</h4>"))
     })
+    
 
     # Return the quiz summary
     # render the UI

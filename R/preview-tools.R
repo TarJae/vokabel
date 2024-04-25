@@ -36,7 +36,6 @@ preview_app <- function(quiz, launch_browser = TRUE) {
     htmltools::div(
       style = "max-width: 500px",
       quiz_ui(quiz),
-      htmltools::br(),
       shiny::checkboxInput('show', 'Show output'),
       shiny::conditionalPanel(
         condition = "input.show == true",
@@ -56,7 +55,6 @@ preview_app <- function(quiz, launch_browser = TRUE) {
       quiz_summary()$summary
     })
     
-    # Display the correct answers count
     output$statsCorrect <- shiny::renderText({
       paste("Correct Answers:", quiz_summary()$correct_answers)
     })
