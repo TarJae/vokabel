@@ -264,7 +264,7 @@ sm_ui_quiz_complete <- function(store, ns, messages, quotes_df=readRDS("quotes.r
     inputId = ns('reload_button'),
     label = 'Neu Starten',
     class = "btn btn-warning", 
-  #  onclick = "location.reload();"  # Add this line
+    onclick = "location.reload();"  # Add this line
   )
   
   # render the restart button

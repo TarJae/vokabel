@@ -367,3 +367,45 @@ setMethod(
     }
   }
 )
+
+# s4 class for get_correct_answers, get_total_answers--------------------------
+# Assuming your class definitions are already included as shown earlier
+
+# Define generic functions for accessors
+setGeneric("get_correct_answers", function(quiz) standardGeneric("get_correct_answers"))
+setGeneric("get_total_questions", function(quiz) standardGeneric("get_total_questions"))
+
+# Define methods for the quiz class
+setMethod("get_correct_answers", "quiz", function(quiz) {
+  return(quiz@correct_answers)
+})
+
+setMethod("get_total_questions", "quiz", function(quiz) {
+  return(quiz@total_questions)
+})
+
+#' Get correct answers from a quiz object
+#'
+#' This method retrieves the number of correct answers from a quiz.
+#'
+#' @param quiz The quiz object to access
+#' @return Integer representing the number of correct answers
+#' @export
+#' @examples
+#' get_correct_answers(myQuiz)
+setMethod("get_correct_answers", "quiz", function(quiz) {
+  return(quiz@correct_answers)
+})
+
+#' Get total questions from a quiz object
+#'
+#' This method retrieves the total number of questions in a quiz.
+#'
+#' @param quiz The quiz object to access
+#' @return Integer representing the total number of questions
+#' @export
+#' @examples
+#' get_total_questions(myQuiz)
+setMethod("get_total_questions", "quiz", function(quiz) {
+  return(quiz@total_questions)
+})

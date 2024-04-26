@@ -28,4 +28,3 @@ quiz <- create_quiz(
 
 preview_app(quiz)
 
-

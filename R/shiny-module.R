@@ -48,8 +48,7 @@ quiz_ui <- function(quiz){
       shiny::uiOutput(outputId = ns('UI_quiz')),
       htmltools::br(),
       shiny::uiOutput(outputId = ns('correct_answers_display')),  # Display correct answers
-      shiny::uiOutput(outputId = ns('total_questions_display')),   # Display total questions
-      shiny::uiOutput(outputId = ns('cumulative_correct_display'))  # Optionally display cumulative correct answers
+      shiny::uiOutput(outputId = ns('total_questions_display'))   # Display total questions
     )
   )
 }
@@ -62,30 +61,24 @@ quiz_ui <- function(quiz){
 #' @return A named list containing the number of correct answers and total questions
 #' @export
 get_quiz_stats <- function(quiz) {
-  print(class(quiz))  # Print the class of the quiz object
-  correct_answers <- quiz$correct_answers()
-  total_questions <- quiz$total_questions()
+  # Ensure that 'get_correct_answers' and 'get_total_questions' are defined for the quiz object
+  correct_answers <- get_correct_answers(quiz)  # hypothetical accessor function
+  total_questions <- get_total_questions(quiz)  # hypothetical accessor function
   list(correct_answers = correct_answers, total_questions = total_questions)
 }
-
 
 #' @param quiz an object of class `quiz`. See [create_quiz()]
 #' @export
 #' @return a reactive object showing the current results of the quiz
 #' 
 #' @describeIn quiz_ui Server side function
-quiz_server <- function(quiz, cumulative_correct = NULL){
-
+quiz_server <- function(quiz){
+  
   verify_quiz_structure(quiz)
   ns <- quiz@options$ns
   id <- ns(NULL)
   if (!isTRUE(stringr::str_count(id, '-') <= 1)) cli::cli_abort('namespace id is invalid. Too many hyphens. Remove any hyphens in your id. Otherwise, are you trying to nest modules more than two deep?')
   id <- stringr::str_remove_all(id, "^.*?-") # remove any prefixes due to parent modules; this is fragile but works
-  
-  
-  if (is.null(cumulative_correct)) {
-    cumulative_correct <- reactiveVal(0)  # Initialize if not provided
-  }
   
   shiny::moduleServer(id, function(input, output, session){
     
@@ -102,22 +95,17 @@ quiz_server <- function(quiz, cumulative_correct = NULL){
     # set the current state and potential values
     store <- sm_create_reactive_store(quiz)
     
-
-# Observe event for restart button
+    # reset quiz
     shiny::observeEvent(input$restart_button, {
-      # Reset the state to the first question
+      
+      # reset the state to the first question
       store <- sm_set_state(store, variable = 'current-state', value = 'quiz-question-1')
       
-      # Remove any responses to reset quiz
+      # remove any responses
       store$questions <- quiz@questions
       store <- sm_set_state(store, variable = 'quiz-skipped', value = FALSE)
       store$is_correct <- rep(NA, length(quiz@questions))
-      
-      # Do not reset the cumulative_correct or correct_answers here
-      # correct_answers(0)  # Comment or remove this if you want to reset for the new session
     })
-    
-    
     
     # skip quiz / finish quiz
     shiny::observeEvent(input$skip_button, {
@@ -145,22 +133,6 @@ quiz_server <- function(quiz, cumulative_correct = NULL){
         store$ui_html <- sm_ui_question(store, ns = ns)
       }
     })
-  
-    
-    shiny::observeEvent(input$reload_button, {
-      # Reset the state to the first question
-      store <- sm_set_state(store, variable = 'current-state', value = 'quiz-question-1')
-      
-      # Remove any responses to reset quiz
-      store$questions <- quiz@questions
-      store <- sm_set_state(store, variable = 'quiz-skipped', value = FALSE)
-      store$is_correct <- rep(NA, length(quiz@questions))
-      
-      # Optionally reset the correct_answers count for the current session if needed
-      # correct_answers(0)
-      
-      # Do not reset cumulative_correct here
-    })
     
     # on button submit, record answer and change the state
     shiny::observeEvent(input$submit_button, {
@@ -179,14 +151,15 @@ quiz_server <- function(quiz, cumulative_correct = NULL){
       store <- sm_set_state(store, 'current-correct', is_correct)
       
       
-      ##################
+      ##
       # Increment total questions
       total_questions(total_questions() + 1)
       
+      # Increment correct answers if the answer is correct
       if (is_correct) {
         correct_answers(correct_answers() + 1)
-        cumulative_correct(cumulative_correct() + 1)  # Update cumulative score
       }
+      
       
       # grade it
       delay_in_ms <- 1000
@@ -221,22 +194,18 @@ quiz_server <- function(quiz, cumulative_correct = NULL){
       shiny::HTML(paste("<h4>Richtig: ", correct_answers(), "</h4>"))
     })
     
-    output$cumulative_correct_display <- shiny::renderUI({
-      shiny::HTML(paste("<h4>Gesamt Richtig: ", cumulative_correct(), "</h4>"))
-    })
-    
     
     output$total_questions_display <- shiny::renderUI({
-      shiny::HTML(paste("<h4>Anzahl Fragen: ", total_questions(), "</h4>"))
+      shiny::HTML(paste("<h4>Gesamt: ", total_questions(), "</h4>"))
     })
     
-
+    
     # Return the quiz summary
     # render the UI
     output$UI_quiz <- shiny::renderUI(store$ui_html)
     
     # return the quiz summary
-   # return(shiny::reactive(sm_summary(store, quiz)))
+    # return(shiny::reactive(sm_summary(store, quiz)))
     
     # returns all elements of quizsummary and correct answers and asked questions count
     return(shiny::reactive({
@@ -244,7 +213,6 @@ quiz_server <- function(quiz, cumulative_correct = NULL){
         ui_html = store$ui_html,
         correct_answers = correct_answers(),
         total_questions = total_questions(),
-        cumulative_correct = cumulative_correct(),
         summary = sm_summary(store, quiz)
       )
     }))
