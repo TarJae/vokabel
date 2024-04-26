@@ -41,14 +41,18 @@ preview_app <- function(quiz, launch_browser = TRUE) {
         condition = "input.show == true",
         shiny::verbatimTextOutput('quizSummary'),
         shiny::verbatimTextOutput('statsCorrect'),
-        shiny::verbatimTextOutput('statsTotal')
+        shiny::verbatimTextOutput('statsTotal'),
+        shiny::verbatimTextOutput('statsCumulativeCorrect')
       )
     )
   )
   
   server <- function(input, output, session) {
-    # Get the reactive object from quiz_server
-    quiz_summary <- quiz_server(quiz)
+    # Initialize cumulative_correct as a reactive value in the server environment
+    cumulative_correct <- reactiveVal(0)
+    
+    # Pass the cumulative_correct to the quiz_server
+    quiz_summary <- quiz_server(quiz, cumulative_correct)
     
     # Display the full summary
     output$quizSummary <- shiny::renderPrint({
@@ -59,14 +63,18 @@ preview_app <- function(quiz, launch_browser = TRUE) {
       paste("Correct Answers:", quiz_summary()$correct_answers)
     })
     
-    # Display the total questions count
     output$statsTotal <- shiny::renderText({
       paste("Total Questions:", quiz_summary()$total_questions)
+    })
+    
+    output$statsCumulativeCorrect <- shiny::renderText({
+      paste("Total Cumulative Correct Answers:", cumulative_correct())
     })
   }
   
   shiny::shinyApp(ui, server, options = list(launch.browser = !isFALSE(launch_browser)))
 }
+
 
 # html preview ------------------------------------------------------------
 
