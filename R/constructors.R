@@ -14,43 +14,23 @@
 #' @seealso [create_question()], [construct_question()], [set_quiz_options()], [construct_messages()]
 #'
 #' @return an object of class `quiz`
-#' @author Joseph Marlo & tarjae
+#' @author Joseph Marlo
 #' @describeIn construct_quiz Construct a quiz object
-# construct_quiz <- function(..., options = set_quiz_options()){
-#   is_all_class_question <- isTRUE(all(purrr::map_lgl(c(...), ~inherits(.x, 'quizQuestion'))))
-#   if (!is_all_class_question) cli::cli_abort("All items in `questions` should be of class 'quizQuestion'")
-#   
-#   verify_options_structure(options)
-#   
-#   # make quiz
-#   quiz <- methods::new('quiz')
-#   quiz@questions <- c(...)
-#   quiz@options <- options
-#   
-#   verify_quiz_structure(quiz)
-#   
-#   return(quiz)
-# }
-construct_quiz <- function(..., options = set_quiz_options()) {
+construct_quiz <- function(..., options = set_quiz_options()){
   is_all_class_question <- isTRUE(all(purrr::map_lgl(c(...), ~inherits(.x, 'quizQuestion'))))
   if (!is_all_class_question) cli::cli_abort("All items in `questions` should be of class 'quizQuestion'")
   
   verify_options_structure(options)
   
-  # Create quiz with initialized correct_answers and total_questions
-  quiz <- new('quiz', 
-              questions = c(...), 
-              options = options,
-              correct_answers = 0,    # Initialize to 0
-              total_questions = 0)    # Initialize to 0
+  # make quiz
+  quiz <- methods::new('quiz')
+  quiz@questions <- c(...)
+  quiz@options <- options
   
   verify_quiz_structure(quiz)
   
   return(quiz)
 }
-
-
-
 
 #' Set the options for the quiz
 #' 
@@ -350,25 +330,16 @@ setClass('quizMessages', slots = list(
 #' @slot options list. a list generated from [set_quiz_options()]
 #'
 #' @return none, sets a class
-#' @author Joseph Marlo & tarjae
+#' @author Joseph Marlo
 #' @noRd
 #' @keywords internal
 #' 
 #' @seealso [construct_quiz()]
-# setClass('quiz', slots = list(
-#   questions = 'list',
-#   options = 'list'
-# )
-# )
-# 
-# 
-# Update the class definition to include correct_answers and total_questions
 setClass('quiz', slots = list(
-  questions = 'list',             # Existing slot for quiz questions
-  options = 'list',               # Existing slot for quiz options
-  correct_answers = 'numeric',    # New slot for tracking correct answers
-  total_questions = 'numeric'     # New slot for tracking total questions
-))
+  questions = 'list',
+  options = 'list'
+)
+)
 
 
 # print methods -----------------------------------------------------------
@@ -396,45 +367,3 @@ setMethod(
     }
   }
 )
-
-# s4 class for get_correct_answers, get_total_answers--------------------------
-# Assuming your class definitions are already included as shown earlier
-
-# Define generic functions for accessors
-setGeneric("get_correct_answers", function(quiz) standardGeneric("get_correct_answers"))
-setGeneric("get_total_questions", function(quiz) standardGeneric("get_total_questions"))
-
-# Define methods for the quiz class
-setMethod("get_correct_answers", "quiz", function(quiz) {
-  return(quiz@correct_answers)
-})
-
-setMethod("get_total_questions", "quiz", function(quiz) {
-  return(quiz@total_questions)
-})
-
-#' Get correct answers from a quiz object
-#'
-#' This method retrieves the number of correct answers from a quiz.
-#'
-#' @param quiz The quiz object to access
-#' @return Integer representing the number of correct answers
-#' @export
-#' @examples
-#' get_correct_answers(myQuiz)
-setMethod("get_correct_answers", "quiz", function(quiz) {
-  return(quiz@correct_answers)
-})
-
-#' Get total questions from a quiz object
-#'
-#' This method retrieves the total number of questions in a quiz.
-#'
-#' @param quiz The quiz object to access
-#' @return Integer representing the total number of questions
-#' @export
-#' @examples
-#' get_total_questions(myQuiz)
-setMethod("get_total_questions", "quiz", function(quiz) {
-  return(quiz@total_questions)
-})

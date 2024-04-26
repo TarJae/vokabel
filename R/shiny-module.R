@@ -54,19 +54,6 @@ quiz_ui <- function(quiz){
 }
 
 
-#' Get correct answers and total questions
-#'
-#' This function returns the current number of correct answers and total questions.
-#' @param quiz The quiz object
-#' @return A named list containing the number of correct answers and total questions
-#' @export
-get_quiz_stats <- function(quiz) {
-  # Ensure that 'get_correct_answers' and 'get_total_questions' are defined for the quiz object
-  correct_answers <- get_correct_answers(quiz)  # hypothetical accessor function
-  total_questions <- get_total_questions(quiz)  # hypothetical accessor function
-  list(correct_answers = correct_answers, total_questions = total_questions)
-}
-
 #' @param quiz an object of class `quiz`. See [create_quiz()]
 #' @export
 #' @return a reactive object showing the current results of the quiz
