@@ -14,23 +14,43 @@
 #' @seealso [create_question()], [construct_question()], [set_quiz_options()], [construct_messages()]
 #'
 #' @return an object of class `quiz`
-#' @author Joseph Marlo
+#' @author Joseph Marlo & tarjae
 #' @describeIn construct_quiz Construct a quiz object
-construct_quiz <- function(..., options = set_quiz_options()){
+# construct_quiz <- function(..., options = set_quiz_options()){
+#   is_all_class_question <- isTRUE(all(purrr::map_lgl(c(...), ~inherits(.x, 'quizQuestion'))))
+#   if (!is_all_class_question) cli::cli_abort("All items in `questions` should be of class 'quizQuestion'")
+#   
+#   verify_options_structure(options)
+#   
+#   # make quiz
+#   quiz <- methods::new('quiz')
+#   quiz@questions <- c(...)
+#   quiz@options <- options
+#   
+#   verify_quiz_structure(quiz)
+#   
+#   return(quiz)
+# }
+construct_quiz <- function(..., options = set_quiz_options()) {
   is_all_class_question <- isTRUE(all(purrr::map_lgl(c(...), ~inherits(.x, 'quizQuestion'))))
   if (!is_all_class_question) cli::cli_abort("All items in `questions` should be of class 'quizQuestion'")
   
   verify_options_structure(options)
   
-  # make quiz
-  quiz <- methods::new('quiz')
-  quiz@questions <- c(...)
-  quiz@options <- options
+  # Create quiz with initialized correct_answers and total_questions
+  quiz <- new('quiz', 
+              questions = c(...), 
+              options = options,
+              correct_answers = 0,    # Initialize to 0
+              total_questions = 0)    # Initialize to 0
   
   verify_quiz_structure(quiz)
   
   return(quiz)
 }
+
+
+
 
 #' Set the options for the quiz
 #' 
@@ -330,16 +350,25 @@ setClass('quizMessages', slots = list(
 #' @slot options list. a list generated from [set_quiz_options()]
 #'
 #' @return none, sets a class
-#' @author Joseph Marlo
+#' @author Joseph Marlo & tarjae
 #' @noRd
 #' @keywords internal
 #' 
 #' @seealso [construct_quiz()]
+# setClass('quiz', slots = list(
+#   questions = 'list',
+#   options = 'list'
+# )
+# )
+# 
+# 
+# Update the class definition to include correct_answers and total_questions
 setClass('quiz', slots = list(
-  questions = 'list',
-  options = 'list'
-)
-)
+  questions = 'list',             # Existing slot for quiz questions
+  options = 'list',               # Existing slot for quiz options
+  correct_answers = 'numeric',    # New slot for tracking correct answers
+  total_questions = 'numeric'     # New slot for tracking total questions
+))
 
 
 # print methods -----------------------------------------------------------
